@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>org.jboss</groupId>
+        <artifactId>jboss-parent</artifactId>
+        <version>19.0.0.redhat-2</version>
+    </parent>
+
+    <groupId>com.github.ben-manes.caffeine</groupId>
+    <!-- This is a fake artifact that is never deployed in nexus repo. It is just a wrapper around the gradle build -->
+    <artifactId>caffeine-aggregator</artifactId>
+    <version>2.4.0.redhat-1</version>
+    <packaging>pom</packaging>
+
+    <name>Caffeine cache</name>
+    <description>A high performance caching library for Java 8+</description>
+
+    <url>https://github.com/ben-manes/caffeine</url>
+    <inceptionYear>2014</inceptionYear>
+
+    <licenses>
+        <license>
+            <name>Apache License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
+    <developers>
+        <developer>
+            <id>ben-manes</id>
+            <name>Ben Manes</name>
+            <email>ben.manes@gmail.com</email>
+            <roles>
+                <role>owner</role>
+                <role>developer</role>
+            </roles>
+        </developer>
+    </developers>
+
+    <scm>
+        <!-- The community project is located here. -->
+        <connection>scm:https://ben-manes@github.com/ben-manes/caffeine.git</connection>
+        <developerConnection>scm:git://github.com/ben-manes/caffeine.git</developerConnection>
+        <url>https://github.com/ben-manes/caffeine</url>
+    </scm>
+
+    <properties>
+        <!-- This is the same version as the supplied gradle wrapper -->
+        <version.org.gradle>3.4-rc-3</version.org.gradle>
+    </properties>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.commonjava.maven.plugins</groupId>
+                <artifactId>project-sources-maven-plugin</artifactId>
+                <configuration>
+                    <!-- Skip creation of a tar.gz with the full source of the project -->
+                    <skipProjectSources>true</skipProjectSources>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-install-plugin</artifactId>
+                <configuration>
+                    <!-- Skip deployment of caffeine-aggregator fake artifact -->
+                    <skip>true</skip>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.fortasoft</groupId>
+                <artifactId>gradle-maven-plugin</artifactId>
+                <version>1.0.8</version>
+                <!--<version>1.0.8.redhat-1</version>-->
+                <configuration>
+                    <gradleVersion>${version.org.gradle}</gradleVersion>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>clean-with-gradle</id>
+                        <phase>clean</phase>
+                        <goals>
+                            <goal>invoke</goal>
+                        </goals>
+                        <configuration>
+                            <tasks>
+                                <task>clean</task>
+                            </tasks>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>build-with-gradle</id>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>invoke</goal>
+                        </goals>
+                        <configuration>
+                            <tasks>
+                                <task>build</task>
+                            </tasks>
+                            <!-- Do not run the test suite -->
+                            <args>
+                                <arg>-x</arg>
+                                <arg>test</arg>
+                            </args>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>install-with-gradle</id>
+                        <phase>install</phase>
+                        <goals>
+                            <goal>invoke</goal>
+                        </goals>
+                        <configuration>
+                            <tasks>
+                                <task>install</task>
+                            </tasks>
+                            <!-- Do not run the test suite -->
+                            <args>
+                                <arg>-x</arg>
+                                <arg>test</arg>
+                            </args>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>

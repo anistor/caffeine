@@ -63,12 +63,7 @@ subprojects {
   sourceCompatibility = JavaVersion.VERSION_1_8
 
   group = 'com.github.ben-manes.caffeine'
-  version.with {
-    major = 2 // incompatible API changes
-    minor = 4 // backwards-compatible additions
-    patch = 0 // backwards-compatible bug fixes
-    releaseBuild = rootProject.hasProperty('release')
-  }
+  version = '2.4.0.redhat-1'
   archivesBaseName = path[1..-1].replaceAll(':', '-').toLowerCase()
 
   dependencies {

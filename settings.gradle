@@ -1,6 +1,7 @@
 rootProject.name = 'caffeine'
 
 include 'caffeine'
-include 'guava'
-include 'jcache'
-include 'simulator'
+// exclude all sub-projects we do not actually use
+//include 'guava'
+//include 'jcache'
+//include 'simulator'
